@@ -27,7 +27,7 @@ Log as `admin` ; password is `keycloak` (see file docker-compose.yml).
 Configure a realm (see keycloak doc <https://www.keycloak.org/docs/latest/server_admin/index.html):>
 
 - realm : "Test"
-- client : "IHM" (client Protocol = openid-connect ; acces-type = public ; root url = <http://localhost:8282> ; redirect URI = *; web origins = '*')
+- client : "IHM" (client Protocol = openid-connect ; acces-type = public ; root url = <http://localhost:8282> ; redirect URI = *; web origins = \*)
 - client : "service" (client Protocol = openid-connect ; acces-type = bearer-only )
 - user : "tester" (credential => set passwd ; not temporary)
 - role : "test" (go to user and role Mapping ; add role.)
