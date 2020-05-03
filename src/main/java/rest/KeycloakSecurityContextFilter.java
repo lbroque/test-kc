@@ -10,6 +10,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
 import org.jboss.logging.Logger;
+import org.keycloak.KeycloakSecurityContext;
 import org.wildfly.swarm.keycloak.deployment.KeycloakSecurityContextAssociation;
 
 /**
@@ -27,10 +28,15 @@ public class KeycloakSecurityContextFilter implements ContainerRequestFilter {
 		// which is a unique (UUID/etc) identifier. The custom security context
 		// sets the principal name to the preferred user name instead.
 
-		log.debug("KeycloakSecurityContextFilter ...");
-		final SecurityContext securityContext = requestContext.getSecurityContext();
+		log.debug("KeycloakSecurityContextFilter "+requestContext.getHeaderString("Authorization"));
+        final KeycloakSecurityContext kcSecurityContext = KeycloakSecurityContextAssociation.get();
+        if(kcSecurityContext == null) {
+        	log.warn("Can't get KeycloakSecurityContextAssociation !!!!");
+        	return;
+        }
+        final SecurityContext securityContext = requestContext.getSecurityContext();
 		// Simplifying for the demo purposes only
-		final Principal kcPrincipal = () -> KeycloakSecurityContextAssociation.get().getToken().getPreferredUsername();
+		final Principal kcPrincipal = () -> kcSecurityContext.getToken().getPreferredUsername();
 //
 //		final Principal kcPrincipal = new Principal() {
 //			
@@ -40,9 +46,7 @@ public class KeycloakSecurityContextFilter implements ContainerRequestFilter {
 //			}
 //		};
 		
-//		log.debug("get() : "+KeycloakSecurityContextAssociation.get());
-//		log.debug("getToken() : "+KeycloakSecurityContextAssociation.get().getToken());
-		log.debug("kcPrincipal : "+kcPrincipal);
+		log.debug("kcPrincipal : "+kcPrincipal.getName());
 
 		requestContext.setSecurityContext(new SecurityContext() {
 
@@ -66,5 +70,8 @@ public class KeycloakSecurityContextFilter implements ContainerRequestFilter {
 				return securityContext.getAuthenticationScheme();
 			}
 		});
+		log.debug("kcSecurityContext : "+kcSecurityContext);
+		log.debug("getToken() : "+kcSecurityContext.getToken());
+        requestContext.getHeaders().add("Realm", kcSecurityContext.getRealm());
 	}
 }

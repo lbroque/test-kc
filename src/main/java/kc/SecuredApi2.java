@@ -19,7 +19,7 @@ public class SecuredApi2 {
 
 	@GET
 	@Path("/api2")
-	@RolesAllowed("test2")
+//	@RolesAllowed("test2")
 	public Response test(@Context SecurityContext securityContext) {
 		final String authScheme = (securityContext == null ? "" : securityContext.getAuthenticationScheme());
 		log.debug("Get TEST ... " + authScheme);

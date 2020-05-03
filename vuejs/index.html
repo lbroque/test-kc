@@ -14,17 +14,23 @@
         <button v-on:click="authenticate">Get token ...</button>
         <p>{{ token }}</p>
         <button v-on:click="onClick">Test services ...</button>
-        <div  style="border: thick double black;">
+        
+        <div  style="border: thick double red;">
         <span>Access to a secured resource by role "test"</span>
-        <p>/rest/secured/api => {{ secured }}</p>
+        <span >/rest/secured/api => </span>
+        <p><span>status:{{status}}</span> <span>{{ secured }}</span></p>
         </div>
+        
         <div style="border: thick double red;">
         <span>Access to a secured resource by role "test2"</span>
-        <p >/rest/secured/api2 => {{ secured2 }}</p>
+        <span >/rest/secured/api2 => </span>
+        <p><span>status:{{status2}}</span> <span>{{ secured2 }}</span></p>
         </div>
+        
         <div style="border: thick double green;">
         <span>Access to a not secured resource </span>
-        <p >/rest/open => {{ open }}</p>
+        <span >/rest/secured/api2 => </span>
+        <p><span>status:{{statusO}}</span> <span>{{ open }}</span></p>
         </div>
     </div>
 
@@ -46,15 +52,41 @@
             el: '#app',
             data: {
                 secured: "NOP",
+                status:0,
                 secured2: "NOP",
+                status2:0,
                 open: "Nop",
+                statusO:0,
                 token: "No Token"
             },
             methods: {
                 onClick() {
-                    axios.get( testKcSecured ).then( response => ( this.secured = response.data ) );
-                    axios.get( testKcSecured2 ).then( response => ( this.secured2 = response.data ) );
-                    axios.get( testKcOpen ).then( response => ( this.open = response.data ) )
+                    axios.get( 
+                            testKcSecured,{headers: {'Authorization':"Bearer "+this.token} } 
+                            ).then( response => { 
+                                        this.secured = response.data ; 
+                                    	this.status= response.status 
+                                    } ).catch(error=>{
+                                        this.secured = ":(" ; 
+                                    	this.status= error.response.status 
+                                        });
+                    axios.get( 
+                            testKcSecured2,{headers: {'Authorization':"Bearer "+this.token} }  
+                            ).then( response => {
+                                		this.secured2 = response.data ; 
+                                		this.status2= response.status 
+                                	} ).catch(error=>{
+                                        this.secured2 = ":(" ; 
+                                    	this.status2= error.response.status 
+                                        });
+                    axios.get( testKcOpen,{headers: {'Authorization':"Bearer "+this.token} } 
+                    		).then( response => { 
+                        				this.open = response.data ; 
+                        				this.statusO = response.status  
+                        			} ).catch(error=>{
+                                        this.open = ":(" ; 
+                                    	this.statusO= error.response.status 
+                                        })
                 },
                 authenticate() {
                     console.log( "authenticate ", keycloakParams );

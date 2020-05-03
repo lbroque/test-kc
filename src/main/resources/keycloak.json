@@ -1,6 +1,6 @@
 {
   "realm": "Test",
-  "auth-server-url": "http://localhost:8181/auth/",
+  "auth-server-url": "http://test-kc-keycloak:8080/auth/",
   "ssl-required": "external",
   "resource": "service",
   "public-client": true,
