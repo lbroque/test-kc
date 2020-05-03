@@ -47,7 +47,6 @@ public class KeycloakSecurityContextFilter implements ContainerRequestFilter {
 //		};
 		
 		log.debug("kcPrincipal : "+kcPrincipal.getName());
-
 		requestContext.setSecurityContext(new SecurityContext() {
 
 			@Override

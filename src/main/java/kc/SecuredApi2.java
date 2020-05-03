@@ -3,6 +3,7 @@ package kc;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -19,6 +20,7 @@ public class SecuredApi2 {
 
 	@GET
 	@Path("/api2")
+	@OPTIONS
 //	@RolesAllowed("test2")
 	public Response test(@Context SecurityContext securityContext) {
 		final String authScheme = (securityContext == null ? "" : securityContext.getAuthenticationScheme());

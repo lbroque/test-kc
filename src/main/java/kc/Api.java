@@ -2,6 +2,7 @@ package kc;
 
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -17,6 +18,7 @@ public class Api {
 	Logger log = Logger.getLogger(getClass());
 
 	@GET
+	@OPTIONS
 	@Path("/open")
 	public Response test(@Context SecurityContext securityContext) {
 		final String authScheme = (securityContext == null ? "" : securityContext.getAuthenticationScheme());
