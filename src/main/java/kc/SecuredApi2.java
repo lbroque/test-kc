@@ -19,8 +19,8 @@ public class SecuredApi2 {
 	Logger log = Logger.getLogger(getClass());
 
 	@GET
-	@Path("/api2")
 	@OPTIONS
+	@Path("/api2")
 	@RolesAllowed("test2")
 	public Response test(@Context SecurityContext securityContext) {
 		final String authScheme = (securityContext == null ? "" : securityContext.getAuthenticationScheme());

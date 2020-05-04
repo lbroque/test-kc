@@ -12,7 +12,7 @@ import org.jboss.logging.Logger;
 
 @Provider
 @ApplicationScoped
-public class CORSFilter implements ContainerResponseFilter {
+public class CORSResponseFilter implements ContainerResponseFilter {
 	private Logger log = Logger.getLogger(getClass());
 
 	@Override

@@ -7,7 +7,12 @@ A GUI client (the client, ie. a simple vuejs page) get a TOKEN from a keycloak s
 
 With this TOKEN we want to access a secured resource (the service, ie. a simple Thorntail jax-rs app).
 
-Why it doesn't work ????
+# Lesson learnt
+
+- Might be a confusion between security by wildfly/jboss and keycloak stuff
+- `keycloak-microprofile-jwt` is the easiest way to implement JWT with keycloak.
+- Keycloak Hostname (either by FRONTENDURL or HOSTNAME env var) should be the same for all clients (JS, Service)
+- be aware of OPTIONS methods launched magically by axios (js). They may have no right to access resources and then you get Unauthorized status (see `OPTIONSRequestFilter.java` be aware of the @PreMatching !)
 
 # Launch
 

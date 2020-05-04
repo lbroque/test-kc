@@ -1,5 +1,6 @@
 package kc;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
@@ -20,12 +21,23 @@ public class SecuredApi {
 
 	@GET
 	@Path("/api")
-	@OPTIONS
 	@RolesAllowed("test")
 	public Response test(@Context SecurityContext securityContext) {
 		final String authScheme = (securityContext == null ? "" : securityContext.getAuthenticationScheme());
 		final boolean isUserInRole = (securityContext == null ? false : securityContext.isUserInRole("test"));
 		log.debug("Get TEST ... " + authScheme + "; " + isUserInRole);
+		final String test = "{\"log\":\"Accessed test secured resource by test role :)\", \"authScheme\":\""
+				+ authScheme + "\", \"isUserInRole\":" 
+				+ isUserInRole + "}";
+		return Response.ok().entity(test).build();
+	}
+	@OPTIONS
+	@Path("/api")
+	@PermitAll
+	public Response options(@Context SecurityContext securityContext) {
+		final String authScheme = (securityContext == null ? "" : securityContext.getAuthenticationScheme());
+		final boolean isUserInRole = (securityContext == null ? false : securityContext.isUserInRole("test"));
+		log.debug("options TEST ... " + authScheme + "; " + isUserInRole);
 		final String test = "{\"log\":\"Accessed test secured resource by test role :)\", \"authScheme\":\""
 				+ authScheme + "\", \"isUserInRole\":" 
 				+ isUserInRole + "}";

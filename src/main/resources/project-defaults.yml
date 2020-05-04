@@ -1,21 +1,19 @@
 thorntail:
-  deployment:
-    kc.war:
-      web:
-        login-config:
-          auth-method: KEYCLOAK
-        security-constraints:
-          - url-pattern: /rest/secured
-            methods: [GET, POST, PUT, DELETE, OPTIONS]
-            roles: [test]
-          - url-pattern: /rest
-            methods: [GET, POST, PUT, DELETE, OPTIONS]
-            roles: []
   keycloak:
-    multitenancy:
-      paths:
-        /rest/secured: keycloak.json
-#        /app/health: health-client-keycloak.json
+    secure-deployments:
+      kc.war:
+        auth-server-url: "http://test-kc-keycloak:8080/auth"
+        realm: Test
+        resource: service
+        bearer-only: true
+        ssl-required: external
+  microprofile:
+    jwtauth:
+      realm: Test
+      token:
+        issuedBy: "http://test-kc-keycloak:8080/auth/realms/Test"
+
+
   logging:
     loggers:
       kc:
