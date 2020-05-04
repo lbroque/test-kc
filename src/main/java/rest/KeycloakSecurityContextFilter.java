@@ -28,10 +28,10 @@ public class KeycloakSecurityContextFilter implements ContainerRequestFilter {
 		// which is a unique (UUID/etc) identifier. The custom security context
 		// sets the principal name to the preferred user name instead.
 
-		log.debug("KeycloakSecurityContextFilter "+requestContext.getHeaderString("Authorization"));
+//		log.debug("KeycloakSecurityContextFilter "+requestContext.getHeaderString("Authorization"));
         final KeycloakSecurityContext kcSecurityContext = KeycloakSecurityContextAssociation.get();
         if(kcSecurityContext == null) {
-        	log.warn("Can't get KeycloakSecurityContextAssociation !!!!");
+        	log.warn("Can't get kcSecurityContext !!!! ("+ requestContext.getUriInfo().getPath()+")");
         	return;
         }
         final SecurityContext securityContext = requestContext.getSecurityContext();
@@ -69,7 +69,7 @@ public class KeycloakSecurityContextFilter implements ContainerRequestFilter {
 				return securityContext.getAuthenticationScheme();
 			}
 		});
-		log.debug("kcSecurityContext : "+kcSecurityContext);
+//		log.debug("kcSecurityContext : "+kcSecurityContext.getAuthorizationContext().);
 		log.debug("getToken() : "+kcSecurityContext.getToken());
         requestContext.getHeaders().add("Realm", kcSecurityContext.getRealm());
 	}

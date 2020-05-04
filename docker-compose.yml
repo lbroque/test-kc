@@ -44,6 +44,7 @@ services:
     image: "test-kc-ihm"
     ports:
       - "8282:80"
+      - "8080:8080"
   test-kc-secured:
     container_name: "test-kc-secured"
     hostname: "test-kc-secured"

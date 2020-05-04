@@ -21,11 +21,14 @@ public class SecuredApi {
 	@GET
 	@Path("/api")
 	@OPTIONS
-//	@RolesAllowed("test")
+	@RolesAllowed("test")
 	public Response test(@Context SecurityContext securityContext) {
 		final String authScheme = (securityContext == null ? "" : securityContext.getAuthenticationScheme());
-		log.debug("Get TEST ... " + authScheme);
-		final String test = "{\"log\":\"Accessed test secured resource by test role :)\", \"authScheme\":\""+authScheme+"\"}";
+		final boolean isUserInRole = (securityContext == null ? false : securityContext.isUserInRole("test"));
+		log.debug("Get TEST ... " + authScheme + "; " + isUserInRole);
+		final String test = "{\"log\":\"Accessed test secured resource by test role :)\", \"authScheme\":\""
+				+ authScheme + "\", \"isUserInRole\":" 
+				+ isUserInRole + "}";
 		return Response.ok().entity(test).build();
 	}
 

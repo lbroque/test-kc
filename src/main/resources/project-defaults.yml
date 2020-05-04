@@ -6,8 +6,11 @@ thorntail:
           auth-method: KEYCLOAK
         security-constraints:
           - url-pattern: /rest/secured
-            methods: [GET, POST, PUT, DELETE]
+            methods: [GET, POST, PUT, DELETE, OPTIONS]
             roles: [test]
+          - url-pattern: /rest
+            methods: [GET, POST, PUT, DELETE, OPTIONS]
+            roles: []
   keycloak:
     multitenancy:
       paths:

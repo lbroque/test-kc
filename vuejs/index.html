@@ -6,7 +6,8 @@
     <title>Test KC</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="http://localhost:8181/auth/js/keycloak.js"></script>
+<!--     <script src="http://localhost:8181/auth/js/keycloak.js"></script> -->
+    <script src="http://test-kc-keycloak:8080/auth/js/keycloak.js"></script>
 </head>
 
 <body>
@@ -29,13 +30,14 @@
 
         <div style="border: thick double green;">
             <span>Access to a not secured resource </span>
-            <span>/rest/secured/api2 => </span>
+            <span>/rest/open => </span>
             <p><span>status:{{statusO}}</span> <span>{{ open }}</span></p>
         </div>
     </div>
 
     <script>
-        const keycloakURL = "http://localhost:8181/auth";
+        //const keycloakURL = "http://localhost:8181/auth";
+        const keycloakURL = "http://test-kc-keycloak:8080/auth";
 
         const testKcSecured = "http://localhost:8383/rest/secured/api";
         const testKcSecured2 = "http://localhost:8383/rest/secured/api2";
